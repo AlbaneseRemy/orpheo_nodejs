@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>API QRCode / PDF</title>
+    <link rel="stylesheet" href="./style/style.css">
+</head>
+<body>
+    <header>
+        <h1>API QRCode / PDF</h1>
+    </header>
+
+    <hr style="width: 80%;">
+
+    <section>
+        <h2>QR Code Generator</h2>
+    
+        <div class="textInput">
+            <input type="text" id="textInput" placeholder="Enter text for QR code">
+        </div>
+        
+        <div class="centeredDiv">
+            <input type="checkbox" id="urlCheckbox" name="urlCheckbox"> <label for="urlCheckbox">Log url in console?</label>
+        </div>
+    
+        <div class="buttonDiv">
+            <button id="generateButton">Generate QR Code</button>
+        </div>
+    
+    
+        <div id="qrCodeContainer" class="centeredDiv"></div>
+    
+        <hr style="width: 80%;">
+    </section>
+
+
+    <section id="">
+        <h2>Bulk QR Code Generator</h2>
+
+        <div class="flexColumn">
+            <input type="file" id="fileInput" style="display: none;" accept=".json" />
+            <button id="uploadButton">Open File (JSON only)</button>
+            <p id="fileName">Empty</p>
+        </div>
+
+        <p class="centerText">If you uploaded a json file, you can generate in bulk all the QR Code.</p>
+
+        <div class="centeredDiv">
+            <button id="bulkQrCodes"> Generate QR Codes</button>
+        </div>
+
+        <div id="qrCodesContainer" class="qrCodes"></div>
+
+
+    </section>
+
+    <script src="./scripts/app.js"></script>
+</body>
+</html>

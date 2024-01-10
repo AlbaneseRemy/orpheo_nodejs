@@ -1,0 +1,81 @@
+h1, h2{
+    color: rgb(216, 73, 73);
+    text-align: center;
+}
+
+header{
+    padding: 30px;
+    text-align: center;
+    color: white;
+}
+
+.buttonDiv{
+    text-align: center;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+button{
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    font-size: 16px;
+    margin: 16px 2px;
+    cursor: pointer;
+    border-radius: 15px;
+}
+
+button:hover{
+    background-color: #3e8e41;
+}
+
+.invisible{
+    display: none;
+}
+
+.textInput{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.textInput input{
+    width: 50%;
+    padding: 8px 16px;
+    margin: 8px 0;
+    border-radius: 10px;
+    border: 1px solid black;
+
+}
+
+.centeredDiv{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flexColumn{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#fileName, .noMargin{
+    margin:0;
+}
+
+.centerText{
+    text-align: center;
+}
+
+.qrCodes{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
