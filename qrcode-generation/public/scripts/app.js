@@ -89,10 +89,11 @@ document.getElementById('bulkQrCodesApi').addEventListener('click', async () => 
         return;
     }
     try {
+        console.time();
         // Stringify jsonInput if it's an object
         const jsonPayload = (typeof jsonInput === 'object') ? JSON.stringify(jsonInput) : jsonInput;
 
-        const response = await fetch('/generate-qrcode-from-json-bulk', {
+        const response = await fetch('http://localhost:3000/generate-qrcode-from-json-bulk', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -101,6 +102,7 @@ document.getElementById('bulkQrCodesApi').addEventListener('click', async () => 
         });
         const qrCodeHTML = await response.text();
         document.getElementById('qrCodesContainer').innerHTML = qrCodeHTML;
+        console.timeEnd();
     } catch (error) {
         console.error('Error fetching QR code:', error);
     }
