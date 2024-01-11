@@ -83,3 +83,25 @@ document.getElementById('bulkQrCodes').addEventListener('click', async () => {
     }
 });
 
+document.getElementById('bulkQrCodesApi').addEventListener('click', async () => {
+    if(jsonInput == null){
+        alert('Please select a JSON file first.');
+        return;
+    }
+    try {
+        // Stringify jsonInput if it's an object
+        const jsonPayload = (typeof jsonInput === 'object') ? JSON.stringify(jsonInput) : jsonInput;
+
+        const response = await fetch('/generate-qrcode-from-json-bulk', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ json: jsonPayload, logUrl: false, size: 400 })
+        });
+        const qrCodeHTML = await response.text();
+        document.getElementById('qrCodesContainer').innerHTML = qrCodeHTML;
+    } catch (error) {
+        console.error('Error fetching QR code:', error);
+    }
+});
