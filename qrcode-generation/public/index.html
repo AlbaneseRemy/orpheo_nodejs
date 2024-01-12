@@ -55,13 +55,30 @@
         <div class="flexColumn">
             <button id="bulkQrCodesApi">Generate Bulk QR Codes with API</button>
         </div>
-
     </section>
 
     <hr style="width: 80%;">
 
     <section>
-        <h2> Open PDF and save it locally </h2>
+
+        <div class="centeredDiv flexColumn">
+
+
+            <h2>Upload a PDF File to Node.js server</h2>
+
+            <form id="uploadForm" enctype="multipart/form-data">
+                <div>
+                    <label for="pdf">Choose PDF File:</label>
+                    <input type="file" id="pdf" name="pdf" accept=".pdf">
+                </div>
+                <div class="centeredDiv">
+                    <button type="submit">Upload File</button>
+                </div>
+            </form>
+            
+    
+        </div>
+
     </section>
 
     <script src="./scripts/app.js"></script>

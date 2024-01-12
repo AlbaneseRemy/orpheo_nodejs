@@ -79,3 +79,7 @@ button:hover{
     align-items: center;
     flex-wrap: wrap;
 }
+
+.wrap{
+    flex-wrap: wrap;
+}

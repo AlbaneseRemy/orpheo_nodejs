@@ -1,4 +1,6 @@
 var jsonInput;
+var secondJsonInput;
+var pdfInput;
 
 document.getElementById('generateButton').addEventListener('click', async () => {
     const text = document.getElementById('textInput').value;
@@ -90,7 +92,6 @@ document.getElementById('bulkQrCodesApi').addEventListener('click', async () => 
     }
     try {
         console.time();
-        // Stringify jsonInput if it's an object
         const jsonPayload = (typeof jsonInput === 'object') ? JSON.stringify(jsonInput) : jsonInput;
 
         const response = await fetch('http://localhost:3000/generate-qrcode-from-json-bulk', {
@@ -107,3 +108,41 @@ document.getElementById('bulkQrCodesApi').addEventListener('click', async () => 
         console.error('Error fetching QR code:', error);
     }
 });
+
+document.getElementById('uploadForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    var formData = new FormData();
+    var fileField = document.getElementById('pdf');
+    console.log(fileField.files[0]);
+    formData.append('pdf', fileField.files[0]);
+
+    fetch('http://localhost:3000/upload', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text())
+    .then(result => {
+        console.log(result);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error uploading file');
+    });
+});
+
+function fetchPdfThenDownload() {
+    fetch('http://localhost:3000/return-pdf-without-json', {
+        method: 'POST',
+    })
+        .then(response => response.blob())
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'download.pdf';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        });
+}
