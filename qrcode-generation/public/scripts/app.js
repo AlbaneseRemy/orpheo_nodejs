@@ -181,7 +181,7 @@ document.getElementById('uploadThenDownloadForm').addEventListener('submit', asy
     try {
         const jsonPayload = (typeof newJsonInput === 'object') ? JSON.stringify(newJsonInput) : newJsonInput;
 
-        fetch('http://localhost:3000/return-pdf-with-json', {
+        await fetch('http://localhost:3000/return-pdf-with-json', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

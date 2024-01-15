@@ -121,16 +121,16 @@ app.post('/return-pdf-without-json', async (req, res) => {
 
 app.post('/return-pdf-with-json', async (req, res) => {
     try {
+        console.time();
         const newPdfDoc = await PDFDocument.PDFDocument.create();
 
         const { json } = req.body;
-        const jsonInput = JSON.parse(req.body.json);
+        const jsonInput = JSON.parse(json);
 
         for await (const element of jsonInput.keys) {
             const pdfBuffer = await fs.readFile('./public/uploads/test.pdf');
             const pdfDoc = await PDFDocument.PDFDocument.load(pdfBuffer);
-            const tempPdfDoc = await PDFDocument.PDFDocument.create();
-
+        
             const response = await fetch('http://localhost:8000/generate-qrcode-return-base64', {
                 method: 'POST',
                 headers: {
@@ -139,53 +139,33 @@ app.post('/return-pdf-with-json', async (req, res) => {
                 body: JSON.stringify({ text: element.url, darkColor: '#ffffff', lightColor: '#0000' })
             });
             const qrCodeImageBytes = await response.text();
-            const text = element.key;
-            console.log(text);
-
             const qrCodeImage = await pdfDoc.embedPng(qrCodeImageBytes);
-
+        
             const form = pdfDoc.getForm();
-            const imageButton = form.getButton('qrcode_af_image');
             const textField = form.getTextField('activation-key');
-            textField.setText(text);
+            textField.setText(element.key);
             textField.setAlignment(PDFDocument.TextAlignment.Center);
+        
+            const imageButton = form.getButton('qrcode_af_image');
             imageButton.setImage(qrCodeImage);
 
-            let [firstDonorPage] = await newPdfDoc.copyPages(pdfDoc, [0]);
-            let [secondDonorPage] = await newPdfDoc.copyPages(pdfDoc, [1]);
+            form.flatten();
 
-            newPdfDoc.addPage(firstDonorPage);
-            newPdfDoc.addPage(secondDonorPage);
-
-            let [firstPage] = await tempPdfDoc.copyPages(pdfDoc, [0]);
-            let [secondPage] = await tempPdfDoc.copyPages(pdfDoc, [1]);
-
-            tempPdfDoc.addPage(firstPage);
-            tempPdfDoc.addPage(secondPage);
-
-            const pdfBytes = await tempPdfDoc.save();
-            await downloadOnServer(pdfBytes, text);
+            const [firstPage, secondPage] = await newPdfDoc.copyPages(pdfDoc, [0, 1]);
+            newPdfDoc.addPage(firstPage);
+            newPdfDoc.addPage(secondPage);
         }
-
-
-        const pdfBytes = await newPdfDoc.save();
+        
+        const finalPdfBytes = await newPdfDoc.save();
         res.setHeader('Content-Disposition', 'attachment; filename=download.pdf');
         res.setHeader('Content-Type', 'application/pdf');
-        res.send(Buffer.from(pdfBytes));
+        res.send(Buffer.from(finalPdfBytes));
     } catch (err) {
         console.error('Error generating PDF, ' + err);
         res.status(500).send('Error generating PDF, ' + err);
     }
-
+    console.timeEnd();
 });
-
-async function downloadOnServer(pdfBytes, text) {
-    try {
-        await fs.writeFile(`./public/uploads/${text}.pdf`, pdfBytes);
-    } catch (err) {
-        console.error(err);
-    }
-}
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
