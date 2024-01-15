@@ -81,6 +81,41 @@
 
     </section>
 
+    <hr style="width: 80%;">
+
+    <section>
+
+        <h2>
+            Download a PDF File from Node.js server
+        </h2>
+
+        <div class="centeredDiv">
+            <button onclick="fetchPdfThenDownload()">Download PDF File</button>
+        </div>
+
+    </section>
+
+    <hr style="width: 80%;">
+
+    <section>
+
+        <h2>
+            Upload a json file, then download modified pdf
+        </h2>
+
+        <form id="uploadThenDownloadForm">
+            <div class="centeredDiv">
+                <label for="jsonThenDownload">Choose json File: </label>
+                <input type="file" id="jsonThenDownload" name="pdfThenDownload" accept=".json" required="true">
+            </div>
+        
+            <div class="centeredDiv">
+                <button type="submit">Upload and generate</button>
+            </div>
+        </form>
+
+    </section>
+
     <script src="./scripts/app.js"></script>
 </body>
 </html>

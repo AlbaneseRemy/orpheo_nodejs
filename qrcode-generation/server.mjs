@@ -21,7 +21,13 @@ app.post('/generate-qrcode', async (req, res) => {
     const qrCodeSize = isNaN(Number(size)) ? 400 : Number(size); 
     const qrCodeImage = await QRCode.toDataURL(text, {
       width: qrCodeSize,
-      height: qrCodeSize
+      height: qrCodeSize,
+      margin: 1,
+      color: {
+        dark: '#000000',
+        light: '#ffffff'
+      }
+
     });
     
     if(logUrl == "true" || (typeof logUrl === 'boolean' && logUrl)){
@@ -30,6 +36,31 @@ app.post('/generate-qrcode', async (req, res) => {
 
     res.send(`<img src="${qrCodeImage}" width="${qrCodeSize}" height="${qrCodeSize}"/>`);
   } catch (err) {
+    res.status(500).send('Error generating QR code');
+  }
+});
+
+app.post('/generate-qrcode-return-base64', async (req, res) => {
+  try{
+    const { text, darkColor, lightColor } = req.body;
+
+    if (!text) {
+      return res.status(400).send('No text provided');
+    }
+    
+    const qrCodeImage = await QRCode.toDataURL(text, {
+      width: 400,
+      height: 400,
+      margin: 1,
+      color: {
+        dark: darkColor,
+        light: lightColor
+      }
+    });
+
+    res.send(qrCodeImage);
+  } catch(err){
+    console.error(err);
     res.status(500).send('Error generating QR code');
   }
 });

@@ -34,34 +34,34 @@ uploadButton.addEventListener('click', () => {
 
 fileInput.addEventListener('change', (event) => {
     const file = event.target.files[0];
-    
 
 
-   if (file && file.name.endsWith('.json')) {
-    console.log('JSON file selected:', file.name);
-    console.log('File selected:', file.name);
-    document.getElementById('fileName').innerHTML = file.name;
 
-    const reader = new FileReader();
-    reader.onload = (e) => {
-        jsonInput = JSON.parse(e.target.result);
-        console.log(jsonInput);
-        console.log("Type: " + typeof jsonInput);
-    };
-    reader.readAsText(file);
-    
-} else {
-    alert('Please select a JSON file.');
-}
+    if (file && file.name.endsWith('.json')) {
+        console.log('JSON file selected:', file.name);
+        console.log('File selected:', file.name);
+        document.getElementById('fileName').innerHTML = file.name;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            jsonInput = JSON.parse(e.target.result);
+            console.log(jsonInput);
+            console.log("Type: " + typeof jsonInput);
+        };
+        reader.readAsText(file);
+
+    } else {
+        alert('Please select a JSON file.');
+    }
 
 });
 
 document.getElementById('bulkQrCodes').addEventListener('click', async () => {
-    if(jsonInput == null){
+    if (jsonInput == null) {
         alert('Please select a JSON file first.');
         return;
     }
-    for(keys of jsonInput.keys){
+    for (keys of jsonInput.keys) {
         try {
 
             const response = await fetch('/generate-qrcode', {
@@ -86,7 +86,7 @@ document.getElementById('bulkQrCodes').addEventListener('click', async () => {
 });
 
 document.getElementById('bulkQrCodesApi').addEventListener('click', async () => {
-    if(jsonInput == null){
+    if (jsonInput == null) {
         alert('Please select a JSON file first.');
         return;
     }
@@ -109,26 +109,29 @@ document.getElementById('bulkQrCodesApi').addEventListener('click', async () => 
     }
 });
 
-document.getElementById('uploadForm').addEventListener('submit', function(e) {
+document.getElementById('uploadForm').addEventListener('submit', function (e) {
     e.preventDefault();
 
     var formData = new FormData();
     var fileField = document.getElementById('pdf');
-    console.log(fileField.files[0]);
+    if (fileField.files.length == 0) {
+        alert('Please select a PDF file first.');
+        return;
+    }
     formData.append('pdf', fileField.files[0]);
 
     fetch('http://localhost:3000/upload', {
         method: 'POST',
         body: formData
     })
-    .then(response => response.text())
-    .then(result => {
-        console.log(result);
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Error uploading file');
-    });
+        .then(response => response.text())
+        .then(result => {
+            console.log(result);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error uploading file');
+        });
 });
 
 function fetchPdfThenDownload() {
@@ -146,3 +149,57 @@ function fetchPdfThenDownload() {
             a.remove();
         });
 }
+
+var newJsonInput;
+const jsonThenDownload = document.getElementById('jsonThenDownload');
+jsonThenDownload.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if (file && file.name.endsWith('.json')) {
+        console.log('JSON file selected:', file.name);
+        console.log('File selected:', file.name);
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            newJsonInput = JSON.parse(e.target.result);
+        };
+        reader.readAsText(file);
+
+    } else {
+        alert('Please select a JSON file.');
+    }
+});
+
+
+
+document.getElementById('uploadThenDownloadForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    if (newJsonInput == null) {
+        alert('Please select a JSON file first.');
+        return;
+    }
+    try {
+        const jsonPayload = (typeof newJsonInput === 'object') ? JSON.stringify(newJsonInput) : newJsonInput;
+
+        fetch('http://localhost:3000/return-pdf-with-json', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ json: jsonPayload })
+        }).then(response => response.blob())
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'downloadjson.pdf';
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+            });
+
+
+    } catch (error) {
+        console.error('Error fetching QR code:', error);
+    }
+});
