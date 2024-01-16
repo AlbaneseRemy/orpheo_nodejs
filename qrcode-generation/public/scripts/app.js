@@ -174,19 +174,25 @@ jsonThenDownload.addEventListener('change', (event) => {
 document.getElementById('uploadThenDownloadForm').addEventListener('submit', async function (e) {
     e.preventDefault();
 
+    var fileField = document.getElementById('pdfThenDownload');
+    if (fileField.files.length == 0) {
+        alert('Please select a PDF file first.');
+        return;
+    }
     if (newJsonInput == null) {
         alert('Please select a JSON file first.');
         return;
     }
     try {
         const jsonPayload = (typeof newJsonInput === 'object') ? JSON.stringify(newJsonInput) : newJsonInput;
+        var formData = new FormData();
+        formData.append('pdf', fileField.files[0]);
+        formData.append('json', jsonPayload);
+        document.getElementById('pdfLoader').style.display = 'block';
 
         await fetch('http://localhost:3000/return-pdf-with-json', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ json: jsonPayload })
+            body: formData
         }).then(response => response.blob())
             .then(blob => {
                 const url = window.URL.createObjectURL(blob);
@@ -197,6 +203,8 @@ document.getElementById('uploadThenDownloadForm').addEventListener('submit', asy
                 a.click();
                 a.remove();
             });
+
+        document.getElementById('pdfLoader').style.display = 'none';
 
 
     } catch (error) {

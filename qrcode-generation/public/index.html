@@ -106,11 +106,19 @@
         <form id="uploadThenDownloadForm">
             <div class="centeredDiv">
                 <label for="jsonThenDownload">Choose json File: </label>
-                <input type="file" id="jsonThenDownload" name="pdfThenDownload" accept=".json" required="true">
+                <input type="file" id="jsonThenDownload" name="jsonThenDownload" accept=".json" required="true">
+
+                <label for="pdfThenDownload">Choose pdf file:</label>
+                <input type="file" id="pdfThenDownload" name="pdfThenDownload" accept=".pdf" required="true">
             </div>
+
+            <p class="centerText">
+                Please be aware that it can takes up to a minute to generate the pdf file if you have a lot of data.
+            </p>
         
-            <div class="centeredDiv">
+            <div class="centeredDiv flexLine">
                 <button type="submit">Upload and generate</button>
+                <div class="loader" id="pdfLoader" style="display:none;"></div>
             </div>
         </form>
 

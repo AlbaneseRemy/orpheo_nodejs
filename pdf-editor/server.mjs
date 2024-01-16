@@ -119,16 +119,21 @@ app.post('/return-pdf-without-json', async (req, res) => {
     }
 });
 
-app.post('/return-pdf-with-json', async (req, res) => {
+app.post('/return-pdf-with-json', upload.single('pdf'), async (req, res) => {
     try {
+        const file = req.file;
+        if (!file) {
+            res.status(400).send('No file uploaded.');
+            return;
+        }
+
         console.time();
         const newPdfDoc = await PDFDocument.PDFDocument.create();
 
-        const { json } = req.body;
-        const jsonInput = JSON.parse(json);
+        const jsonInput = JSON.parse(req.body.json);
 
         for await (const element of jsonInput.keys) {
-            const pdfBuffer = await fs.readFile('./public/uploads/test.pdf');
+            const pdfBuffer = await fs.readFile(file.path);
             const pdfDoc = await PDFDocument.PDFDocument.load(pdfBuffer);
         
             const response = await fetch('http://localhost:8000/generate-qrcode-return-base64', {
