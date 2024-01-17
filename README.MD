@@ -1,4 +1,4 @@
-![Orpheo](/images/logo.png)
+![Orpheo](/images/logo.png?raw=true)
 
 # Serveur node.js 
 
