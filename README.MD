@@ -1,3 +1,5 @@
+[Orpheo](/images/logo.png)
+
 # Serveur node.js 
 
 Ces deux microservices node.js permettent :
@@ -12,8 +14,29 @@ Ces deux microservices node.js permettent :
 
 ## Installation
 
-Instructions on how to install and set up the project.
+Cloner le repo github avec la commande :
+    "git@github.com:AlbaneseRemy/orpheo_nodejs.git"
+Deux dossiers sont présents: 
+    - pdf-editor
+    - qrcode-generation
+
+Il faudra ouvrir les deux dans deux terminaux différents, puis rentrer dans chacun des dossiers, la commande suivante:
+    "node server.mjs"
+Cela ouvrira deux serveurs distincts aux ports suivants : 8000 et 3000
+Le serveur de QR Code est totalement indépendant du serveur de PDF, tandis que le serveur de PDF a besoin des QR Codes pour fonctionner.
 
 ## Usage
 
-Instructions on how to use the project or any relevant examples.
+L'interface pour la génération des QR Code se trouve à l'adresse internet "localhost:8000".
+
+Vous pouvez générer un QR Code en remplissant le formulaire : 
+[QRCODE_form](/images/form.png)
+Pour la génération d'une image, il n'y a pas besoin de rentrer de fichier json, ni de fichier pdf. Vous pouvez ensuite cliquer sur le bouton : "Preview".
+
+Pour générer un PDF, il faut rentrer le pdf template, comportant deux champs: 
+    - Un champ textfield avec pour id : "activation-key"
+    - Un champ button avec pour id : "qrcode_af_image"
+Il faut également rentrer un fichier json suivant la structure suivante :
+    Une liste "keys", comportant pour chaque élément :
+        - Un élément "key" correspondant à la clé d'activation
+        - Un élément "url" correspondant à ce qui sera encodé dans le QR Code.
