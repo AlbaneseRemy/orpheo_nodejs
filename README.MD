@@ -1,4 +1,4 @@
-![Orpheo](/images/logo.png?raw=true)
+<img src="/images/logo.png?raw=true" alt="Orpheo" width="200" height="200"/>
 
 # Serveur node.js 
 
