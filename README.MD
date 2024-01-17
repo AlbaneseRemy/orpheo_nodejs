@@ -1,5 +1,6 @@
 <div style="display:flex; align-items: center; justify-content:center;">
 <img src="/images/logo.png?raw=true" alt="Orpheo" width="200" height="200"/>
+</div>
 
 # Serveur node.js 
 
@@ -31,7 +32,7 @@ Le serveur de QR Code est totalement indépendant du serveur de PDF, tandis que 
 L'interface pour la génération des QR Code se trouve à l'adresse internet "localhost:8000".
 
 Vous pouvez générer un QR Code en remplissant le formulaire : 
-![QRCODE_form](/images/form.png)
+<img src="/images/form.png?raw=true" alt="Form screenshot"/>
 Pour la génération d'une image, il n'y a pas besoin de rentrer de fichier json, ni de fichier pdf. Vous pouvez ensuite cliquer sur le bouton : "Preview".
 
 Pour générer un PDF, il faut rentrer le pdf template, comportant deux champs: 
