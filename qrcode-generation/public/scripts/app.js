@@ -56,35 +56,6 @@ fileInput.addEventListener('change', (event) => {
 
 });
 
-document.getElementById('bulkQrCodes').addEventListener('click', async () => {
-    if (jsonInput == null) {
-        alert('Please select a JSON file first.');
-        return;
-    }
-    for (keys of jsonInput.keys) {
-        try {
-
-            const response = await fetch('/generate-qrcode', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ text: keys.url, logUrl: false, size: 400 })
-            });
-            const qrCodeHTML = await response.text();
-            let div = document.createElement('div');
-            let p = document.createElement('p');
-            p.innerHTML = keys.url;
-            p.classList.add('centerText');
-            div.appendChild(p);
-            div.innerHTML += qrCodeHTML;
-            document.getElementById('qrCodesContainer').appendChild(div);
-        } catch (error) {
-            console.error('Error fetching QR code:', error);
-        }
-    }
-});
-
 document.getElementById('bulkQrCodesApi').addEventListener('click', async () => {
     if (jsonInput == null) {
         alert('Please select a JSON file first.');
@@ -211,3 +182,16 @@ document.getElementById('uploadThenDownloadForm').addEventListener('submit', asy
         console.error('Error fetching QR code:', error);
     }
 });
+
+async function styledQRCode(){
+    const response = await fetch('http://localhost:8000/generate-qrcode-styling', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text: "bonjour" })
+    });
+
+    console.log("ljazkezjalkezajlkezjelkzaje");
+    console.log(response);
+}

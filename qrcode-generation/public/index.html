@@ -13,6 +13,92 @@
     <hr style="width: 80%;">
 
     <section>
+
+        <h2>Styled QR Code with form - Generates pdf from json and pdf upload</h2>
+
+        <form id="customQrCodeFormPdf">
+
+        <div class="flexLine wrap">
+            <div class="flexColumn smallMargin">
+                <label for="customQrCodeWidthPdf">Width: </label>
+                <input type="number" id="customQrCodeWidthPdf" name="customQrCodeWidthPdf" placeholder="Width" value="400">
+
+                <label for="customQrCodeHeightPdf">Height: </label>
+                <input type="number" id="customQrCodeHeightPdf" name="customQrCodeHeightPdf" placeholder="Height" value="400">
+
+                <label for="customQrCodeMarginPdf">Margin: </label>
+                <input type="number" id="customQrCodeMarginPdf" name="customQrCodeMarginPdf" placeholder="Margin" required="true" value="0">
+            </div>
+
+            <div class="flexColumn smallMargin">
+                <label for="customQrCodeDotColorPdf">Dot color: </label>
+                <input type="color" id="customQrCodeDotColorPdf" name="customQrCodeDotColorPdf" value="#000000">
+
+                <label for="customQrCodeDotTypePdf"> Dot type: </label>
+                <select id="customQrCodeDotTypePdf" name="customQrCodeDotTypePdf">
+                    <option value="square">Square</option>
+                    <option value="dots">Dots</option>
+                    <option value="rounded">Rounded</option>
+                    <option value="extra-rounded">Extra rounded</option>
+                    <option value="classy"> Classy</option>
+                    <option value="classy-rounded">Classy rounded</option>
+                </select>
+
+                <label for="customQrCodeBackgroundColorPdf">Background color: </label>
+                <input type="color" id="customQrCodeBackgroundColorPdf" name="customQrCodeBackgroundColorPdf" value="#ffffff">
+            </div>
+
+            <div class="flexColumn smallMargin">
+
+                <label for="customQrCodeCornersSquareStylePdf">Corner square</label>
+                <select name="customQrCodeCornersSquareStylePdf" id="customQrCodeCornersSquareStylePdf">
+                    <option value="square">Square</option>
+                    <option value="none">None</option>
+                    <option value="extra-rounded">Extra rounded</option>
+                    <option value="dot">Dot</option>
+                </select>
+
+                <label for="customQrCodeCornersColorPdf"></label>
+                <input type="color" id="customQrCodeCornersColorPdf" name="customQrCodeCornersColorPdf" value="#000000">
+
+            </div>
+
+            <div class="flexColumn smallMargin">
+                <label for="customQrCodeCornersDotStylePdf">Corner Dot</label>
+                <select name="customQrCodeCornersDotStylePdf" id="customQrCodeCornersDotStylePdf">
+                    <option value="square">Square</option>
+                    <option value="dot">Dot</option>
+                    <option value="none">None</option>
+                </select>
+
+                <label for="customQrCodeCornersDotColorPdf"></label>
+                <input type="color" id="customQrCodeCornersDotColorPdf" name="customQrCodeCornersDotColorPdf" value="#000000">
+            </div>
+
+            <div class="flexColumn smallMargin">
+                <label for="customQrCodeJson">Json file : </label>
+                <input type="file" id="customQrCodeJson" name="customQrCodeJson" accept=".json" required>
+
+                <label for="customQrCodePdf">Pdf file : </label>
+                <input type="file" id="customQrCodePdf" name="customQrCodePdf" accept=".pdf" required>
+            </div>
+
+        </div>
+
+            <div class="centeredDiv">
+                <button id="previewButton" type="button">Preview</button>
+                <button type="submit">Generate custom PDF with custom QRCode</button>
+            </div>
+
+        </form>
+
+        <div class="centeredDiv" id="customQrCodePlaceholder"></div>
+
+    </section>
+
+    <hr style="width: 80%;">
+
+    <section>
         <h2>QR Code Generator</h2>
     
         <div class="textInput">
@@ -44,10 +130,6 @@
         </div>
 
         <p class="centerText">If you uploaded a json file, you can generate in bulk all the QR Code.</p>
-
-        <div class="centeredDiv">
-            <button id="bulkQrCodes"> Generate QR Codes</button>
-        </div>
 
         <div id="qrCodesContainer" class="qrCodes"></div>
 
@@ -86,20 +168,6 @@
     <section>
 
         <h2>
-            Download a PDF File from Node.js server
-        </h2>
-
-        <div class="centeredDiv">
-            <button onclick="fetchPdfThenDownload()">Download PDF File</button>
-        </div>
-
-    </section>
-
-    <hr style="width: 80%;">
-
-    <section>
-
-        <h2>
             Upload a json file, then download modified pdf
         </h2>
 
@@ -124,6 +192,11 @@
 
     </section>
 
+    </section>
+
+    <hr style="width: 80%;">
+
     <script src="./scripts/app.js"></script>
+    <script src="./scripts/scriptForm.js"></script>
 </body>
 </html>

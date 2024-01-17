@@ -131,17 +131,18 @@ app.post('/return-pdf-with-json', upload.single('pdf'), async (req, res) => {
         const newPdfDoc = await PDFDocument.PDFDocument.create();
 
         const jsonInput = JSON.parse(req.body.json);
+        const { width, height, margin, dotColor, backgroundColor, dotType, cornerSquareType, cornerSquareColor, cornerDotType, cornerDotColor } = req.body;
 
         for await (const element of jsonInput.keys) {
             const pdfBuffer = await fs.readFile(file.path);
             const pdfDoc = await PDFDocument.PDFDocument.load(pdfBuffer);
         
-            const response = await fetch('http://localhost:8000/generate-qrcode-return-base64', {
+            const response = await fetch('http://localhost:8000/generate-custom-qrcode', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ text: element.url, darkColor: '#ffffff', lightColor: '#0000' })
+                body: JSON.stringify({ text: element.url, dotColor: dotColor, lightColor: backgroundColor, width: width, height: height, margin: margin, dotType: dotType, cornerSquareType: cornerSquareType, cornerSquareColor: cornerSquareColor, cornerDotType: cornerDotType, cornerDotColor: cornerDotColor })
             });
             const qrCodeImageBytes = await response.text();
             const qrCodeImage = await pdfDoc.embedPng(qrCodeImageBytes);

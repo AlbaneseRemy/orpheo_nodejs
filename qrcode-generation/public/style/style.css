@@ -65,6 +65,14 @@ button:hover{
     align-items: center;
 }
 
+.flexWrap{
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+
+}
+
 #fileName, .noMargin{
     margin:0;
 }
@@ -97,4 +105,18 @@ button:hover{
   @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+  }
+
+  .smallMargin label{
+        margin: 10px;
+        margin-bottom: 5px;
+  }
+
+  .flexLine
+  {
+    display:flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: row;
   }
