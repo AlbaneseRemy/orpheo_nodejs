@@ -1,122 +1,96 @@
-h1, h2{
-    color: rgb(216, 73, 73);
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+h1,
+h2 {
+    color: rgb(87, 62, 63);
     text-align: center;
 }
 
-header{
+input {
+    margin-left: 48px;
+    margin-right: 48px;
+}
+
+header {
     padding: 30px;
     text-align: center;
     color: white;
 }
 
-.buttonDiv{
-    text-align: center;
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-}
-
-button{
-    background-color: #4CAF50;
+button {
+    background-color: #c40e0e !important;
     border: none;
     color: white;
     padding: 15px 32px;
     text-align: center;
     font-size: 16px;
-    margin: 16px 2px;
+    margin: 16px 8px;
     cursor: pointer;
     border-radius: 15px;
 }
 
-button:hover{
-    background-color: #3e8e41;
+button:hover {
+    background-color: #800505 !important;
 }
 
-.invisible{
-    display: none;
-}
 
-.textInput{
-    display:flex;
+.centeredDiv {
+    display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.textInput input{
-    width: 50%;
-    padding: 8px 16px;
-    margin: 8px 0;
-    border-radius: 10px;
-    border: 1px solid black;
-
-}
-
-.centeredDiv{
-    display:flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.flexColumn{
-    display:flex;
+.flexColumn {
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-.flexWrap{
-    display:flex;
+.flexWrap {
+    display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
 
 }
 
-#fileName, .noMargin{
-    margin:0;
-}
-
-.centerText{
-    text-align: center;
-}
-
-.qrCodes{
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-}
-
-.wrap{
+.wrap {
     flex-wrap: wrap;
 }
 
 .loader {
     margin-left: 10px;
-    border: 6px solid #f3f3f3; /* Light grey */
-    border-top: 6px solid #3498db; /* Blue */
+    border: 6px solid #f3f3f3;
+    border-top: 6px solid #3498db;
     border-radius: 50%;
     width: 30px;
     height: 30px;
     animation: spin 2s linear infinite;
-  }
-  
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
+}
 
-  .smallMargin label{
-        margin: 10px;
-        margin-bottom: 5px;
-  }
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
 
-  .flexLine
-  {
-    display:flex;
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.smallMargin label {
+    margin: 10px;
+    margin-bottom: 5px;
+}
+
+.flexLine {
+    display: flex;
     justify-content: space-around;
     align-items: center;
     flex-wrap: wrap;
     flex-direction: row;
-  }
+}

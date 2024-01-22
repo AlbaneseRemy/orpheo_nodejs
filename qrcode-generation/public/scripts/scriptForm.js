@@ -1,6 +1,6 @@
 const previewButton = document.getElementById('previewButton');
 previewButton.addEventListener('click', async () => {
-    const text = "Sample for demo";
+    const text = "Pretty long text sample for demo purposes";
     const width = document.getElementById('customQrCodeWidthPdf').value;
     const height = document.getElementById('customQrCodeHeightPdf').value;
     const margin = document.getElementById('customQrCodeMarginPdf').value;
@@ -12,22 +12,43 @@ previewButton.addEventListener('click', async () => {
     const cornerDotType = document.getElementById('customQrCodeCornersDotStylePdf').value;
     const cornerDotColor = document.getElementById('customQrCodeCornersDotColorPdf').value;
 
-    fetch('http://localhost:8000/generate-custom-qrcode-return-img', {
+    fetch('http://localhost:8000/generate-custom-qrcode', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({text, width, height, margin, dotColor, backgroundColor, dotType, cornerSquareType, cornerSquareColor, cornerDotType, cornerDotColor})
+        body: JSON.stringify({ text, width, height, margin, dotColor, backgroundColor, dotType, cornerSquareType, cornerSquareColor, cornerDotType, cornerDotColor })
     })
         .then(response => response.text())
         .then(result => {
-            document.getElementById('customQrCodePlaceholder').innerHTML = result;
+            var img = document.createElement('img');
+            img.src = result;
+            img.width = width;
+            img.height = height;
+            if(document.getElementById('customQrCodePlaceholder').firstChild){
+                document.getElementById('customQrCodePlaceholder').removeChild(document.getElementById('customQrCodePlaceholder').firstChild);
+            }
+            document.getElementById('customQrCodePlaceholder').appendChild(img);
         })
         .catch(error => {
             console.error('Error:', error);
             alert('Error generating QR code');
         });
 });
+
+onload = function () {
+    previewButton.click();
+    var widthInput = document.getElementById('customQrCodeWidthPdf');
+    var heightInput = document.getElementById('customQrCodeHeightPdf');
+
+    widthInput.addEventListener('input', function() {
+        heightInput.value = widthInput.value;
+    });
+
+    heightInput.addEventListener('input', function() {
+        widthInput.value = heightInput.value;
+    });
+};
 
 var jsonInput;
 const customQrCodeJson = document.getElementById('customQrCodeJson');
@@ -44,8 +65,9 @@ customQrCodeJson.addEventListener('change', (event) => {
     }
 });
 
-document.getElementById('customQrCodeFormPdf').addEventListener('submit', async function (e) {
-    e.preventDefault();
+document.getElementById('submitButton').addEventListener('click', async function (e) {
+
+    document.getElementById('loaderDownload').style.display = 'flex';
 
     const width = document.getElementById('customQrCodeWidthPdf').value;
     const height = document.getElementById('customQrCodeHeightPdf').value;
@@ -62,12 +84,16 @@ document.getElementById('customQrCodeFormPdf').addEventListener('submit', async 
 
     var formData = new FormData();
 
-    if (!pdfFile) {
-        alert('Please select a PDF file first.');
-        return;
-    }
+
     if (!jsonInput) {
         alert('Please select a JSON file first.');
+        document.getElementById('loaderDownload').style.display = 'none';
+        return;
+    }
+
+    if (!pdfFile) {
+        alert('Please select a PDF file first.');
+        document.getElementById('loaderDownload').style.display = 'none';
         return;
     }
 
@@ -85,19 +111,20 @@ document.getElementById('customQrCodeFormPdf').addEventListener('submit', async 
     formData.append('cornerDotColor', cornerDotColor);
 
 
-    fetch('http://localhost:3000/return-pdf-with-json', {
+    await fetch('http://localhost:3000/return-pdf-with-json', {
         method: 'POST',
         body: formData
     })
-    .then(response => response.blob())
-    .then(blob => {
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'downloadjson.pdf';
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-    });
+        .then(response => response.blob())
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'downloadjson.pdf';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        });
 
+    document.getElementById('loaderDownload').style.display = 'none';
 });
