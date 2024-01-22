@@ -15,7 +15,7 @@ Ces deux microservices node.js permettent :<br/>
 ## Installation
 
 Cloner le repo github avec la commande :<br/>
-    "git@github.com:AlbaneseRemy/orpheo_nodejs.git"
+    "git@github.com:AlbaneseRemy/orpheo_nodejs.git"<br/>
 Deux dossiers sont présents: <br/>
     - pdf-editor<br/>
     - qrcode-generation
